@@ -11,6 +11,11 @@
 #include <chrono>
 #include <cmath>
 
+#include <iostream>
+#include <string>
+#include <chrono>
+#include <cmath>
+
 using namespace std;
 
 class Cache
@@ -19,7 +24,7 @@ class Cache
     unsigned int *buffer;
     int *buf_sizes;
     int size;
-    int KBtoSize(int kb);
+    int KB2Size(int kb);
     void initbuffer(int n);
     void directTest(int n);
     void reverseTest(int n);
@@ -35,7 +40,7 @@ public:
     Experiment* MakeTest(string travel, int& experimentsSize);
 };
 
-int Cache::KBtoSize(int kb)
+int Cache::KB2Size(int kb)
 {
     return kb * 1024 / sizeof(int);
 }
@@ -44,23 +49,23 @@ void Cache::initbuffer(int n)
 {
     if (buffer != nullptr)
         delete[] buffer;
-    buffer = new unsigned int[n];
-    for (unsigned int i = 0; i < n; i++)
+    buffer = new int[n];
+    for ( int i = 0; i < n; i++)
         buffer[i] = rand() % n;
 }
 
 void Cache::directTest(int n)
 {
-    for (unsigned int loop = 0; loop < LOOPS; loop++)
+    for ( int loop = 0; loop < LOOPS; loop++)
     {
-        for (unsigned int i = 0; i < n; i++)
+        for ( int i = 0; i < n; i++)
             int v = buffer[i];
     }
 }
 
 void Cache::reverseTest(int n)
 {
-    for (unsigned int loop = 0; loop < LOOPS; loop++)
+    for ( int loop = 0; loop < LOOPS; loop++)
     {
         for (int i = n - 1; i >= 0; i--)
             int v = buffer[i];
@@ -69,7 +74,7 @@ void Cache::reverseTest(int n)
 
 void Cache::randomTest(int n)
 {
-    for (unsigned int loop = 0; loop < LOOPS; loop++)
+    for ( int loop = 0; loop < LOOPS; loop++)
     {
         for (int i = 0; i < n; i++)
             int v = buffer[rand() % n];
@@ -85,7 +90,7 @@ Cache::Experiment* Cache::MakeTest(string travel, int &experimentsSize)
     Experiment *experiments = new Experiment[size + 1];
     for (int i = 0; i < size; i++)
     {
-        int n = KBtoSize(buf_sizes[i]);
+        int n = KB2Size(buf_sizes[i]);
         initbuffer(n);
         auto start = chrono::high_resolution_clock::now();
         if (travel == "direct") {
@@ -126,7 +131,7 @@ Cache::Cache(int min_kb, int max_kb)
     buf_sizes[n++] = max_kb * 3 / 2;
     buffer = nullptr;
     cout << endl << "Buffer sizes: ";
-    for (unsigned int i = 0; i < n; i++)
+    for (int i = 0; i < n; i++)
         cout << buf_sizes[i] << " ";
     cout << endl;
 }
