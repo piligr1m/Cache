@@ -1,18 +1,47 @@
-cmake_minimum_required(VERSION 3.4)    # Минимальная версия CMake
+cmake_minimum_required(VERSION 3.4)
 
-set(CMAKE_CXX_STANDARD 17)             # Стандарт C++
-set(CMAKE_CXX_STANDARD_REQUIRED ON)    # Обязательность установки указанного стандарта (если OFF (по умолчанию), то воспринимается как совет)
-git submodule add https://github.com/hunter-packages/gate.git tools/gate
-HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.7.0.tar.gz"
-    SHA1 "e730118c7ec65126398f8d4f09daf9366791ede0"
-    )
-    project(MyAwesomeProject)
-    string(APPEND CMAKE_CXX_FLAGS " -Wall -Werror")
-    hunter_add_package(GTest) 
-    find_package(GTest CONFIG REQUIRED)
-    find_package(Threads)
-    add_executable(
-  tests
-  ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+option(BUILD_COVERAGE "Build coverage" OFF)
+
+set(
+  HUNTER_CACHE_SERVERS
+  "https://github.com/bmstu-iu8-cpp-sem-3/hunter-cache"
+  CACHE STRING "Default cache server"
 )
+
+git submodule add https://github.com/hunter-packages/gate.git tools/gate
+
+HunterGate(
+  URL "https://github.com/ruslo/hunter/archive/v0.23.214.tar.gz"
+  SHA1 "e14bc153a7f16d6a5eeec845fb0283c8fad8c358"
+)
+
+project(Cache)
+string(APPEND CMAKE_CXX_FLAGS " -pedantic -Werror -Wall -Wextra")
+string(APPEND CMAKE_CXX_FLAGS " -Wno-unused-command-line-argument")
+string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
+
+add_executable(
+  ${PROJECT_NAME}
+  ${CMAKE_CURRENT_SOURCE_DIR}/sources/main.cpp
+)
+
+target_include_directories(
+  ${PROJECT_NAME}
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+enable_testing()
+add_test(NAME unit_tests COMMAND tests)
+
+if (BUILD_COVERAGE)
+  set(ENABLE_COVERAGE ON CACHE BOOL "Enable coverage build." FORCE)
+  list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+  find_package(codecov)
+  add_coverage(${PROJECT_NAME})
+  add_coverage(tests)
+  list(APPEND LCOV_REMOVE_PATTERNS "'${PROJECT_SOURCE_DIR}/tests/*'")
+  coverage_evaluate()
+endif ()
