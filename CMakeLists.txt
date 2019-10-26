@@ -11,7 +11,7 @@ set(
   CACHE STRING "Default cache server"
 )
 
-git submodule add https://github.com/hunter-packages/gate.git tools/gate
+include("tools/gate/cmake/HunterGate.cmake") 
 
 HunterGate(
   URL "https://github.com/ruslo/hunter/archive/v0.23.214.tar.gz"    # URL к ядру Hunter
