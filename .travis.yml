@@ -27,7 +27,7 @@ jobs:
   include:
   - name: "quality"
     script:
-    - docker run -t -v $(pwd):/opt/builder/ --entrypoint ./scripts/duplication.sh toliak/bootstrap-cpp
+    - docker run -t -v $(pwd):/var/builder/ -w /var/builder --entrypoint ./scripts/tests.sh $DOCKER_IMAGE
   - name: "compile"
     script:
     - docker run -t -v $(pwd):/opt/builder/ --entrypoint ./scripts/compile.sh toliak/bootstrap-cpp
