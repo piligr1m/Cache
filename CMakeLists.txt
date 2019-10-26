@@ -19,7 +19,7 @@ HunterGate(
 )
 
 project(Cache)
-string(APPEND CMAKE_CXX_FLAGS " -pedantic -Werror -Wall -Wextra")
+
 
 
 add_executable(
