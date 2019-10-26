@@ -11,17 +11,12 @@
 #include <chrono>
 #include <cmath>
 
-#include <iostream>
-#include <string>
-#include <chrono>
-#include <cmath>
-
 using namespace std;
 
 class Cache
 {
     const int LOOPS = 1000;
-    unsigned int *buffer;
+    int *buffer;
     int *buf_sizes;
     int size;
     int KB2Size(int kb);
