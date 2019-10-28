@@ -17,7 +17,7 @@ class Cache
 {
     const int LOOPS = 1000;
     int *buffer;
-    int *buf_sizes;
+    int *buffer_size;
     int size;
     int KB2Size(int kb);
     void initbuffer(int n);
@@ -85,7 +85,7 @@ Cache::Experiment* Cache::MakeTest(string travel, int &experimentsSize)
     Experiment *experiments = new Experiment[size + 1];
     for (int i = 0; i < size; i++)
     {
-        int n = KB2Size(buf_sizes[i]);
+        int n = KB2Size(buffer_size[i]);
         initbuffer(n);
         auto start = chrono::high_resolution_clock::now();
         if (travel == "direct") {
@@ -104,7 +104,7 @@ Cache::Experiment* Cache::MakeTest(string travel, int &experimentsSize)
         cout << "   - experiment:" << endl;
         cout << "       number: " << (i + 1) << endl;
         cout << "       input data:" << endl;
-        cout << "         buffer size: " << buf_sizes[i] << "KB" << endl;
+        cout << "         buffer size: " << buffer_size[i] << "KB" << endl;
         cout << "       results:" << endl;
         cout << "         duration: " << (chrono::duration_cast<chrono::nanoseconds>(finish - start).count() / LOOPS) << "ns" << endl;
     }
@@ -115,18 +115,18 @@ Cache::Experiment* Cache::MakeTest(string travel, int &experimentsSize)
 Cache::Cache(int min_kb, int max_kb)
 {
     size = log2(max_kb / min_kb) + 3;
-    buf_sizes = new int[size];
+    buffer_size = new int[size];
     int n = 0;
     min_kb /= 2;
     while (min_kb <= max_kb * 3 / 2)
     {
-        buf_sizes[n++] = min_kb;
+        buffer_size[n++] = min_kb;
         min_kb *= 2;
     }
-    buf_sizes[n++] = max_kb * 3 / 2;
+    buffer_size[n++] = max_kb * 3 / 2;
     buffer = nullptr;
     cout << endl << "Buffer sizes: ";
     for (int i = 0; i < n; i++)
-        cout << buf_sizes[i] << " ";
+        cout << buffer_size[i] << " ";
     cout << endl;
 }
