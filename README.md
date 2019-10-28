@@ -80,7 +80,3 @@ investigation:                                       |  investigation:
 ```
 
 ⚠️ В отчет также необходимо добавить общий график с результатами всех исследований. ⚠️
-### График
-Зеленая линия - Random travel
-Синия линия - Direct travel
-Красная линия - Reverse travel
