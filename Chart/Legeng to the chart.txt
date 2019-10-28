@@ -1,0 +1,3 @@
+Зеленая линия - Random travel
+Красная линия - Reverse travel
+Синия линия - Direct travel
