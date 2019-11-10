@@ -13,6 +13,6 @@ include_directories(include)
 
 enable_testing()
 
-add_executable(test_cache main.cpp)
+add_executable(test_cache sources/main.cpp)
 
 add_test(NAME ${PROJECT_NAME} COMMAND test_cache)
