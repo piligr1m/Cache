@@ -17,13 +17,13 @@ class Cache
 {
     const int LOOPS = 1000;
     int *buffer;
-    int *buffer_size;
+    int *buff_size;
     int size;
-    int KB2Size(int kb);
-    void initbuffer(int n);
-    void directTest(int n);
-    void reverseTest(int n);
-    void randomTest(int n);
+    int KB2Size(int kb); // size
+    void initbuffer(int n); // filling the buffer
+    void directTest(int n); //direct test
+    void reverseTest(int n); // reverse test
+    void randomTest(int n); //random test
 public:
     struct Experiment
     {
@@ -31,8 +31,8 @@ public:
         string name;
         double time;
     };
-    Cache(int min_kb, int max_kb);
-    Experiment* MakeTest(string travel, int& experimentsSize);
+    Cache(int min_kb, int max_kb); // determines how many experiments will be done
+    Experiment* MakeTest(string travel, int& experimentsSize); //making tests
 };
 
 int Cache::KB2Size(int kb)
@@ -85,7 +85,7 @@ Cache::Experiment* Cache::MakeTest(string travel, int &experimentsSize)
     Experiment *experiments = new Experiment[size + 1];
     for (int i = 0; i < size; i++)
     {
-        int n = KB2Size(buffer_size[i]);
+        int n = KB2Size(buff_size[i]);
         initbuffer(n);
         auto start = chrono::high_resolution_clock::now();
         if (travel == "direct") {
@@ -104,7 +104,7 @@ Cache::Experiment* Cache::MakeTest(string travel, int &experimentsSize)
         cout << "   - experiment:" << endl;
         cout << "       number: " << (i + 1) << endl;
         cout << "       input data:" << endl;
-        cout << "         buffer size: " << buffer_size[i] << "KB" << endl;
+        cout << "         buffer size: " << buff_size[i] << "KB" << endl;
         cout << "       results:" << endl;
         cout << "         duration: " << (chrono::duration_cast<chrono::nanoseconds>(finish - start).count() / LOOPS) << "ns" << endl;
     }
@@ -115,18 +115,18 @@ Cache::Experiment* Cache::MakeTest(string travel, int &experimentsSize)
 Cache::Cache(int min_kb, int max_kb)
 {
     size = log2(max_kb / min_kb) + 3;
-    buffer_size = new int[size];
+    buff_size = new int[size];
     int n = 0;
     min_kb /= 2;
     while (min_kb <= max_kb * 3 / 2)
     {
-        buffer_size[n++] = min_kb;
+        buff_size[n++] = min_kb;
         min_kb *= 2;
     }
-    buffer_size[n++] = max_kb * 3 / 2;
+    buff_size[n++] = max_kb * 3 / 2;
     buffer = nullptr;
     cout << endl << "Buffer sizes: ";
     for (int i = 0; i < n; i++)
-        cout << buffer_size[i] << " ";
+        cout << buff_size[i] << " ";
     cout << endl;
 }
