@@ -15,7 +15,7 @@ using namespace std;
 
 class Cache
 {
-    const int LOOPS = 1000;
+    const int loops = 1000;
     int *buffer;
     int *buff_size;
     int size;
@@ -51,28 +51,28 @@ void Cache::initbuffer(int n)
 
 void Cache::directTest(int n)
 {
-    for ( int loop = 0; loop < LOOPS; loop++)
+    for ( int loop = 0; loop < loops; loop++)
     {
         for ( int i = 0; i < n; i++)
-            int v = buffer[i];
+            buffer[i];
     }
 }
 
 void Cache::reverseTest(int n)
 {
-    for ( int loop = 0; loop < LOOPS; loop++)
+    for ( int loop = 0; loop < loops; loop++)
     {
         for (int i = n - 1; i >= 0; i--)
-            int v = buffer[i];
+             buffer[i];
     }
 }
 
 void Cache::randomTest(int n)
 {
-    for ( int loop = 0; loop < LOOPS; loop++)
+    for ( int loop = 0; loop < loops; loop++)
     {
         for (int i = 0; i < n; i++)
-            int v = buffer[rand() % n];
+            buffer[rand() % n];
     }
 }
 
@@ -100,13 +100,13 @@ Cache::Experiment* Cache::MakeTest(string travel, int &experimentsSize)
         auto finish = std::chrono::high_resolution_clock::now();
         experiments[i].id = i + 1;
         experiments[i].name = travel;
-        experiments[i].time = (chrono::duration_cast<chrono::nanoseconds>(finish - start).count() / LOOPS);
+        experiments[i].time = (chrono::duration_cast<chrono::nanoseconds>(finish - start).count() / loops);
         cout << "   - experiment:" << endl;
         cout << "       number: " << (i + 1) << endl;
         cout << "       input data:" << endl;
         cout << "         buffer size: " << buff_size[i] << "KB" << endl;
         cout << "       results:" << endl;
-        cout << "         duration: " << (chrono::duration_cast<chrono::nanoseconds>(finish - start).count() / LOOPS) << "ns" << endl;
+        cout << "         duration: " << (chrono::duration_cast<chrono::nanoseconds>(finish - start).count() / loops) << "ns" << endl;
     }
     cout << endl;
     return experiments;
