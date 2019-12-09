@@ -112,7 +112,7 @@ Cache::Experiment* Cache::MakeTest(string travel, int &experimentsSize)
         cout << "         buffer size: " << buff_size[i] << "KB" << endl;
         cout << "       results:" << endl;
         cout << "         duration: " << (chrono::duration_cast<chrono::nanoseconds>(finish - start).count() / loops) << "ns" << endl;
-        destructor(n+1);
+        destructor(n);
     }
     cout << endl;
     return experiments;
