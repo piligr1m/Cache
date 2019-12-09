@@ -24,6 +24,7 @@ class Cache
     void directTest(int n); //direct test
     void reverseTest(int n); // reverse test
     void randomTest(int n); //random test
+    void destructor(int n);
 public:
     struct Experiment
     {
@@ -42,11 +43,15 @@ int Cache::KB2Size(int kb)
 
 void Cache::initbuffer(int n)
 {
-    if (buffer != nullptr)
-        delete[] buffer;
+  //  if (buffer != nullptr)
+     //   delete[] buffer;
     buffer = new int[n];
     for ( int i = 0; i < n; i++)
         buffer[i] = rand() % n;
+}
+void Cache::destructor(int n)
+{
+     delete[] buffer;
 }
 
 void Cache::directTest(int n)
@@ -72,7 +77,7 @@ void Cache::randomTest(int n)
     for ( int loop = 0; loop < loops; loop++)
     {
         for (int i = 0; i < n; i++)
-            buffer[rand() % n];
+           buffer[rand() % n];
     }
 }
 
@@ -107,6 +112,7 @@ Cache::Experiment* Cache::MakeTest(string travel, int &experimentsSize)
         cout << "         buffer size: " << buff_size[i] << "KB" << endl;
         cout << "       results:" << endl;
         cout << "         duration: " << (chrono::duration_cast<chrono::nanoseconds>(finish - start).count() / loops) << "ns" << endl;
+        destructor(n+1);
     }
     cout << endl;
     return experiments;
